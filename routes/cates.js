@@ -37,7 +37,7 @@ router.get('/them-cate.html', function(req, res, next) {
 router.post('/them-cate.html', function(req, res, next) {
     //res.render('admin/cate/them');
     req.checkBody('name', 'Giá Trị không được rổng').notEmpty();
-    req.checkBody('name', 'Name 5 đến 32 ký tự').isLength({ min: 3, max: 32 });
+    req.checkBody('name', 'Name 3 đến 32 ký tự').isLength({ min: 3, max: 32 });
     var errors = req.validationErrors();
     if (errors) {
         res.render('admin/cate/them', { errors: errors });
@@ -45,7 +45,7 @@ router.post('/them-cate.html', function(req, res, next) {
 
     var cate = new Cate({
         name: req.body.name,
-        nameKhongDau: bodauTiengViet(req.body.name)
+        namekhongdau: bodauTiengViet(req.body.name)
     });
 
     cate.save().then(function() {
@@ -65,7 +65,7 @@ router.get('/:id/sua-cate.html', function(req, res, next) {
 
 router.post('/:id/sua-cate.html', function(req, res, next) {
     req.checkBody('name', 'Giá Trị không được rổng').notEmpty();
-    req.checkBody('name', 'Name 5 đến 32 ký tự').isLength({ min: 3, max: 32 });
+    req.checkBody('name', 'Name 3 đến 32 ký tự').isLength({ min: 3, max: 32 });
     var errors = req.validationErrors();
     if (errors) {
         Cate.findById(req.params.id, function(err, data) {
@@ -74,7 +74,7 @@ router.post('/:id/sua-cate.html', function(req, res, next) {
     } else {
         Cate.findById(req.params.id, function(err, data) {
             data.name = req.body.name;
-            data.nameKhongDau = bodauTiengViet(req.body.name);
+            data.namekhongdau = bodauTiengViet(req.body.name);
             data.save();
             req.flash('success_msg', 'Đã Sửa Thành Công');
             res.redirect('/admin/cate/' + req.params.id + '/sua-cate.html');
